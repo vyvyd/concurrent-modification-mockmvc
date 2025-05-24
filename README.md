@@ -103,9 +103,9 @@ java.util.ConcurrentModificationException
 
 ## Solution
 
-Since the problem is not something that we as a consumer of these libraries can solve easily. 
+Since this issue arises from internal thread-safety limitations in the testing infrastructure (MockHttpServletResponse), which is something that cannot be easily resolved from the consumer side, I would recommend disabling Spring Security’s header-writing filters (such as HeaderWriterFilter) during @WebMvcTest.
 
-I would propose that we disable the Spring-Security HeaderWriterFilter + other 'header writing' filters within the scope of the `@WebMvcTest`. This can be done through a custom Spring Security Configuration used only within the scope of `@WebMvcTest` instances.
+This can be achieved by defining a custom Spring Security configuration that is activated only within the scope of your @WebMvcTest tests. This configuration should exclude or disable any filters that attempt to write headers to the response, thus avoiding the potential for ConcurrentModificationException.
 
 ```kt
 @TestConfiguration
