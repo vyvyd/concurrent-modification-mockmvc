@@ -105,4 +105,25 @@ java.util.ConcurrentModificationException
 
 Since the problem is not something that we as a consumer of these libraries can solve easily. 
 
-I would propose that we disable the Spring-Security HeaderWriterFilter + other 'header writing' filters within the scope of the `@WebMvcTest`.
+I would propose that we disable the Spring-Security HeaderWriterFilter + other 'header writing' filters within the scope of the `@WebMvcTest`. This can be done through a custom Spring Security Configuration used only within the scope of `@WebMvcTest` instances.
+
+```
+@TestConfiguration
+class SecurityConfigForTesting {
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http
+            .authorizeHttpRequests { it
+                .anyRequest().permitAll() // Allow all requests
+            }
+            .csrf { it.disable() } // Disable CSRF
+            .formLogin { it.disable() } // Disable form login
+            .httpBasic { it.disable() } // Disable HTTP Basic auth
+            .headers {
+                headers -> headers.disable()
+            }  // disable frame options header (used in tests for DEMO)
+
+        return http.build()
+    }
+}
+```
