@@ -22,9 +22,9 @@ https://github.com/spring-projects/spring-security/issues/9175
 
 ## Why does this exception happen?
 
-From the exception stack-trace that is thrown during the ConcurrentModificationException, it is very clear that the problem happens because a Spring Security Filter in the Filter Chain is writing headers to the MockMvcResponse. 
+From the exception stack-trace that is thrown during the ConcurrentModificationException, it is very clear that the problem happens **the moment a Spring Security Filter in the Filter Chain is writing headers to the MockMvcResponse.** 
 
-The `ConcurrentModificationException` is thrown because the headers are stored in a LinkedCaseInsensitiveMap, which is not thread-safe. A Spring Security Filter tries to write header information to the response from the Servlet Thread, where as the Streaming Response Body is being written from a task-executor thread. That is the concurrent access modification exception that we are seeing.
+The `ConcurrentModificationException` is thrown because the headers in the response  are stored in a LinkedCaseInsensitiveMap, which is not thread-safe. A Spring Security Filter tries to write header information to the response from the Servlet Thread, where as the Streaming Response Body is being written from a task-executor thread. That is the concurrent access modification exception that we are seeing.
 
 ```
 
