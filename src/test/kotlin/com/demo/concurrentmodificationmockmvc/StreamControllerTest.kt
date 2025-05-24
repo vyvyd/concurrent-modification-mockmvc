@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(StreamController::class)
-@Import(SecurityConfig::class) // Ensure security is disabled
+@Import(SecurityConfigForTesting::class) // Ensure security is disabled
 class StreamControllerTest {
 
     @Autowired

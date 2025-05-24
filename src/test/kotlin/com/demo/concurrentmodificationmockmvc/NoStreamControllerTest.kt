@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
 @WebMvcTest(NoStreamController::class)
-@Import(SecurityConfig::class)
+@Import(SecurityConfigForTesting::class)
 class NoStreamControllerTest {
 
     @Autowired
