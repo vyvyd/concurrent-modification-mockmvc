@@ -107,7 +107,7 @@ Since the problem is not something that we as a consumer of these libraries can 
 
 I would propose that we disable the Spring-Security HeaderWriterFilter + other 'header writing' filters within the scope of the `@WebMvcTest`. This can be done through a custom Spring Security Configuration used only within the scope of `@WebMvcTest` instances.
 
-```
+```kt
 @TestConfiguration
 class SecurityConfigForTesting {
     @Bean
